@@ -32,6 +32,8 @@ chat member
 
 chat message
 - diplay author, creation date, text
+ 
+implement block list functionality (use triggers or integrity constraints)
 
 indexes.sql
 GUI
