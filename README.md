@@ -12,6 +12,7 @@ browse list of chats
 start new chat (select initial chat members) - private or group chat, chronological order - index
 chat owner
 - send
+-- ofij
 
 indexes.sql
 GUI
