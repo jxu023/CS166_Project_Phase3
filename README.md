@@ -6,6 +6,7 @@ TODO:
 
 basic functionality
 user account deletion - CASCADE DELETES ( should this delete all sent as well? or just delete usr from table and contact lists)
+
 browse contact list / block list
 add/delete users from contact/block list
 browse list of chats
