@@ -2,29 +2,19 @@
 
 BEFORE WORKING ON FEATURE:
 
-git pull
-
-refer to queries.sql 
-
-test query using foo.sql and foo.sh
-
-add to queries.sql
-
-add method to Messenger.java
-
-add method call to user interface
-
-test with compile.sh
+- git pull
+- refer to queries.sql 
+- test query using foo.sql and foo.sh
+- add to queries.sql
+- add method to Messenger.java
+- add method call to user interface
+- test with compile.sh
 
 AFTER WORKING ON FEATURE:
-
-git pull
-
-git add .
-
-git commit -m "complete FEATURE description goes here"
-
-git push
+- git pull
+- git add .
+- git commit -m "complete FEATURE description goes here"
+- git push
 
 TODO:
 
