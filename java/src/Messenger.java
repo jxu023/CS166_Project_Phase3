@@ -268,14 +268,24 @@ public class Messenger {
                 System.out.println("MAIN MENU");
                 System.out.println("---------");
                 System.out.println("1. Add to contact list");
-                System.out.println("2. Browse contact list");
-                System.out.println("3. Write a new message");
+                System.out.println("2. Add to block list");
+                System.out.println("3. Browse contact list");
+                System.out.println("4. Browse block list");
+                System.out.println("5. Write a new message");
+                System.out.println("6. Browse current chats");
+                System.out.println("7. Create a new chat");
+                System.out.println("8. DELETE Account");
                 System.out.println(".........................");
                 System.out.println("9. Log out");
                 switch (readChoice()){
                    case 1: AddToContact(esql); break;
-                   case 2: ListContacts(esql, authorisedUser); break;
-                   case 3: NewMessage(esql); break;
+                   case 2: AddToBlock(esql); break;
+                   case 3: ListContacts(esql, authorisedUser); break;
+                   case 4: BrowseBlockList(esql, authorisedUser); break;
+                   case 5: NewMessage(esql); break;
+                   case 6: ListChats(esql, authorisedUser); break;
+                   case 7: newChat(esql); break;
+                   case 8: DeleteAccount(esql); break;
                    case 9: usermenu = false; break;
                    default : System.out.println("Unrecognized choice!"); break;
                 }
@@ -380,6 +390,12 @@ public class Messenger {
       // ...
       // ...
    }//end
+   
+      public static void AddToBlock(Messenger esql){
+      // Your code goes here.
+      // ...
+      // ...
+   }//end
 
    public static void ListContacts(Messenger esql, String authorisedUser){
 	   System.out.println("ListContacts called!");
@@ -398,10 +414,36 @@ public class Messenger {
    }//end 
 
 
-   public static void Query6(Messenger esql){
+   public static void BrowseBlockList(Messenger esql, String authorisedUser){
+      System.out.println("BrowseBlockList called!");
+       try{
+         String query = String.format( "SELECT u1.login AS Blocked_Contacts FROM (SELECT con.list_member FROM USER_LIST_CONTAINS con, USR u WHERE u.login = '%s' AND u.block_list = con.list_id) AS list, USR u1 WHERE list.list_member = u1.login" , authorisedUser);
+         esql.executeQueryAndPrintResult(query);
+      }catch(Exception e){
+         System.err.println (e.getMessage ());
+      }
+   }//end 
+   
+    public static void ListChats(Messenger esql, String authorisedUser){
+       System.out.println("ListChats called!");
+       try{
+         String query = String.format("SELECT chats.chat_id AS Current_Chats FROM CHAT_LIST chats, USR u1 WHERE u1.login = '%s' AND chats.member = u1.login", authorisedUser);
+         esql.executeQueryAndPrintResult(query);
+      }catch(Exception e){
+         System.err.println (e.getMessage ());
+      }
+   }//end
+   
+    public static void newChat(Messenger esql){
       // Your code goes here.
       // ...
       // ...
-   }//end Query6
+   }//end 
+   
+    public static void DeleteAccount(Messenger esql){
+      // Your code goes here.
+      // ...
+      // ...
+   }//end 
 
 }//end Messenger

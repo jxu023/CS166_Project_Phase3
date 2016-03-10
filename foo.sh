@@ -1,1 +1,1 @@
-psql -p 33446 jaxudb < foo.sql
+psql -p 2424 g_base < queries.sql
