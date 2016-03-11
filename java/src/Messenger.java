@@ -396,14 +396,14 @@ public class Messenger {
     
       if (userCount) 
       {   
-        //get contat list ID
+        //gets contact list ID
         String query2 = String.format("SELECT contact_list FROM Usr WHERE login = '%s'", authorisedUser);
     
         List<List<String>> result;
         result = esql.executeQueryAndReturnResult(query2);
         int listId = Integer.parseInt(result.get(0).get(0)); 
     
-        //insert contact to contact list
+        //inserts contact to contact list
         String query3 = String.format("INSERT INTO USER_LIST_CONTAINS (list_id, list_member) VALUES('%s', '%s');", listId, authorisedUser);
     
         esql.executeUpdate(query3);
@@ -411,8 +411,7 @@ public class Messenger {
       }   
       else 
         System.out.println ("This user does not exist.");
-    
-    
+
       }catch(Exception e){ 
         System.err.println (e.getMessage ());
       }   
