@@ -386,9 +386,36 @@ public class Messenger {
    }//end
 
    public static void AddToContact(Messenger esql){
-      // Your code goes here.
-      // ...
-      // ...
+       try{
+           
+      String contact;
+      System.out.print("Enter contact: ");
+      contact = in.readLine();
+      String query1 = String.format("SELECT COUNT(*) FROM Usr WHERE login = '%s'", login);
+      int userCount = esql.executeQuery(query1);
+    
+      if (userCount) 
+      {   
+        //get contat list ID
+        String query2 = String.format("SELECT contact_list FROM Usr WHERE login = '%s'", authorisedUser);
+    
+        List<List<String>> result;
+        result = esql.executeQueryAndReturnResult(query2);
+        int listId = Integer.parseInt(result.get(0).get(0)); 
+    
+        //insert contact to contact list
+        String query3 = String.format("INSERT INTO USER_LIST_CONTAINS (list_id, list_member) VALUES('%s', '%s');", listId, login);
+    
+        esql.executeUpdate(query3);
+        System.out.println ("Successfully added " + user + " to contacts!");
+      }   
+      else 
+        System.out.println ("This user does not exist.");
+    
+    
+      }catch(Exception e){ 
+        System.err.println (e.getMessage ());
+      }   
    }//end
    
       public static void AddToBlock(Messenger esql){
