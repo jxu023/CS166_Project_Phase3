@@ -278,7 +278,7 @@ public class Messenger {
                 System.out.println(".........................");
                 System.out.println("9. Log out");
                 switch (readChoice()){
-                   case 1: AddToContact(esql); break;
+                   case 1: AddToContact(esql, authorisedUser); break;
                    case 2: AddToBlock(esql); break;
                    case 3: ListContacts(esql, authorisedUser); break;
                    case 4: BrowseBlockList(esql, authorisedUser); break;
@@ -385,13 +385,13 @@ public class Messenger {
       }
    }//end
 
-   public static void AddToContact(Messenger esql){
+   public static void AddToContact(Messenger esql, authorisedUser){
        try{
            
       String contact;
       System.out.print("Enter contact: ");
       contact = in.readLine();
-      String query1 = String.format("SELECT COUNT(*) FROM Usr WHERE login = '%s'", login);
+      String query1 = String.format("SELECT COUNT(*) FROM Usr WHERE login = '%s'", authorisedUser);
       int userCount = esql.executeQuery(query1);
     
       if (userCount) 
@@ -404,10 +404,10 @@ public class Messenger {
         int listId = Integer.parseInt(result.get(0).get(0)); 
     
         //insert contact to contact list
-        String query3 = String.format("INSERT INTO USER_LIST_CONTAINS (list_id, list_member) VALUES('%s', '%s');", listId, login);
+        String query3 = String.format("INSERT INTO USER_LIST_CONTAINS (list_id, list_member) VALUES('%s', '%s');", listId, authorisedUser);
     
         esql.executeUpdate(query3);
-        System.out.println ("Successfully added " + user + " to contacts!");
+        System.out.println ("Successfully added " + contact + " to contacts!");
       }   
       else 
         System.out.println ("This user does not exist.");
