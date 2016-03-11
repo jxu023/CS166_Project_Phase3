@@ -391,7 +391,7 @@ public class Messenger {
       String contact;
       System.out.print("Enter contact: ");
       contact = in.readLine();
-      String query1 = String.format("SELECT COUNT(*) FROM Usr WHERE login = '%s'", authorisedUser);
+      String query1 = String.format("SELECT COUNT(*) FROM Usr WHERE login = '%s'", contact);
       int userCount = esql.executeQuery(query1);
     
       if (userCount) 
@@ -404,7 +404,7 @@ public class Messenger {
         int listId = Integer.parseInt(result.get(0).get(0)); 
     
         //inserts contact to contact list
-        String query3 = String.format("INSERT INTO USER_LIST_CONTAINS (list_id, list_member) VALUES('%s', '%s');", listId, authorisedUser);
+        String query3 = String.format("INSERT INTO USER_LIST_CONTAINS (list_id, list_member) VALUES('%s', '%s');", listId, contact);
     
         esql.executeUpdate(query3);
         System.out.println ("Successfully added " + contact + " to contacts!");
@@ -417,10 +417,37 @@ public class Messenger {
       }   
    }//end
    
-      public static void AddToBlock(Messenger esql){
-      // Your code goes here.
-      // ...
-      // ...
+      public static void AddToBlock(Messenger esql, authorisedUser){
+          try{
+           
+      String contact;
+      System.out.print("Enter contact: ");
+      block_contact = in.readLine();
+      String query1 = String.format("SELECT COUNT(*) FROM Usr WHERE login = '%s'", block_contact);
+      int userCount = esql.executeQuery(query1);
+    
+      if (userCount) 
+      {   
+        //gets contact list ID
+        String query2 = String.format("SELECT contact_list FROM Usr WHERE login = '%s'", authorisedUser);
+    
+        List<List<String>> result;
+        result = esql.executeQueryAndReturnResult(query2);
+        int listId = Integer.parseInt(result.get(0).get(0)); 
+    
+        //inserts contact to block list
+        String query3 = String.format("INSERT INTO USER_LIST_CONTAINS (list_id, list_member) VALUES('%s', '%s');", listId, block_contact);
+    
+        esql.executeUpdate(query3);
+        System.out.println ("Successfully added " + block_contact + " to your block list!");
+      }   
+      else 
+        System.out.println ("This user does not exist.");
+
+      }catch(Exception e){ 
+        System.err.println (e.getMessage ());
+      } 
+      
    }//end
 
    public static void ListContacts(Messenger esql, String authorisedUser){
