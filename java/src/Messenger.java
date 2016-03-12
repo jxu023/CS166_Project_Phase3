@@ -279,7 +279,7 @@ public class Messenger {
                 System.out.println("9. Log out");
                 switch (readChoice()){
                    case 1: AddToContact(esql, authorisedUser); break;
-                   case 2: AddToBlock(esql); break;
+                   case 2: AddToBlock(esql, authorisedUser); break;
                    case 3: ListContacts(esql, authorisedUser); break;
                    case 4: BrowseBlockList(esql, authorisedUser); break;
                    case 5: NewMessage(esql); break;
@@ -385,16 +385,15 @@ public class Messenger {
       }
    }//end
 
-   public static void AddToContact(Messenger esql, authorisedUser){
+   public static void AddToContact(Messenger esql, String authorisedUser){
        try{
            
-      String contact;
       System.out.print("Enter contact: ");
-      contact = in.readLine();
+      String contact = in.readLine();
       String query1 = String.format("SELECT COUNT(*) FROM Usr WHERE login = '%s'", contact);
       int userCount = esql.executeQuery(query1);
     
-      if (userCount) 
+      if (userCount == 1) 
       {   
         //gets contact list ID
         String query2 = String.format("SELECT contact_list FROM Usr WHERE login = '%s'", authorisedUser);
@@ -409,24 +408,24 @@ public class Messenger {
         esql.executeUpdate(query3);
         System.out.println ("Successfully added " + contact + " to contacts!");
       }   
-      else 
-        System.out.println ("This user does not exist.");
-
+      else if (userCount != 1)
+	{ 
+       		 System.out.println ("This user does not exist.");
+	}
       }catch(Exception e){ 
         System.err.println (e.getMessage ());
       }   
    }//end
    
-      public static void AddToBlock(Messenger esql, authorisedUser){
+      public static void AddToBlock(Messenger esql,  String authorisedUser){
           try{
            
-      String contact;
       System.out.print("Enter contact: ");
-      block_contact = in.readLine();
+      String block_contact = in.readLine();
       String query1 = String.format("SELECT COUNT(*) FROM Usr WHERE login = '%s'", block_contact);
       int userCount = esql.executeQuery(query1);
     
-      if (userCount) 
+      if (userCount == 1) 
       {   
         //gets contact list ID
         String query2 = String.format("SELECT contact_list FROM Usr WHERE login = '%s'", authorisedUser);
@@ -451,9 +450,9 @@ public class Messenger {
    }//end
 
    public static void ListContacts(Messenger esql, String authorisedUser){
-	   System.out.println("ListContacts called!");
+	  // System.out.println("ListContacts called!");
        try{
-         String query = String.format( "SELECT u1.login AS Contacts, u1.status AS Status FROM ( SELECT con.list_member FROM USER_LIST_CONTAINS con, USR u WHERE u.login = '%s' AND u.contact_list = con.list_id) AS list, USR u1 WHERE list.list_member = u1.login" , authorisedUser);
+         String query = String.format( "SELECT u1.login AS Contacts, u1.status FROM ( SELECT con.list_member FROM USER_LIST_CONTAINS con, USR u WHERE u.login = '%s' AND u.contact_list = con.list_id) AS list, USR u1 WHERE list.list_member = u1.login" , authorisedUser);
          esql.executeQueryAndPrintResult(query);
       }catch(Exception e){
          System.err.println (e.getMessage ());
