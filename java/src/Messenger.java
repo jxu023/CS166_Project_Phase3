@@ -23,6 +23,8 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.util.List;
 import java.util.ArrayList;
+import java.util.TimeZone;
+import java.util.concurrent.TimeUnit;
 
 /**
  * This class defines a simple embedded SQL utility class that is designed to
@@ -250,7 +252,6 @@ public class Messenger {
          boolean keepon = true;
          while(keepon) {
             // These are sample SQL statements
-            System.out.print("\033[H\033[2J");
             System.out.println("MAIN MENU");
             System.out.println("---------");
             System.out.println("1. Create user");
@@ -491,7 +492,7 @@ public class Messenger {
         
         int msg_offset = 0;
    
-      System.out.println("Which chat do you want to work with?\n");
+      System.out.println("Which chat do you want to work with? ");
       int chat_num = Integer.parseInt(in.readLine());
       
       boolean bool = false;
@@ -521,12 +522,13 @@ public class Messenger {
           System.out.println("5. return to main menu");
           switch(readChoice()){  
             case 1: 
-                     System.out.println("Input your message:");
+                     System.out.println("Input your message: ");
                      String message = in.readLine();
-                     String insert_message = String.format("INSERT INTO message (msg_text, sender_login,chat_id) VALUES ('%s','%s','%d')", message, authorisedUser, chat_num);
+                     String insert_message = String.format("INSERT INTO message (msg_text, sender_login,chat_id, msg_timestamp) VALUES ('%s','%s','%d', now())", message, authorisedUser, chat_num);
       
                      esql.executeUpdate(insert_message);
                      System.out.println("\nMessage successfully sent!");
+                     Wait();
                     break;
             case 2: 
                     int choice = 1;
@@ -598,6 +600,7 @@ public class Messenger {
             
             default:
             System.out.println("Invalid Input!\n");
+            Wait();
             break;
           }
         }
