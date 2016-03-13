@@ -273,24 +273,26 @@ public class Messenger {
                 System.out.println("-----------------------");
                 System.out.println("1. Add to contact list");
                 System.out.println("2. Add to block list");
-                System.out.println("3. Browse contact list");
-                System.out.println("4. Browse block list");
-                System.out.println("5. Write a new message");
-                System.out.println("6. Browse/Edit current chats");
-                System.out.println("7. Create a new chat");
-                System.out.println("8. DELETE Account");
+                System.out.println("3. Delete from contact list");
+                System.out.println("4. Delete from block list");
+                System.out.println("5. Browse contact list");
+                System.out.println("6. Browse block list");
+                System.out.println("7. Browse/Edit current chats");
+                System.out.println("8. Create a new chat");
+                System.out.println("9. DELETE Account");
                 System.out.println(".........................");
-                System.out.println("9. Log out");
+                System.out.println("10. Log out");
                 switch (readChoice()){
                    case 1: AddToContact(esql, authorisedUser); Wait(); System.out.print("\033[H\033[2J"); break;
                    case 2: AddToBlock(esql, authorisedUser); Wait(); System.out.print("\033[H\033[2J"); break;
-                   case 3: ListContacts(esql, authorisedUser); Wait(); System.out.print("\033[H\033[2J"); break;
-                   case 4: BrowseBlockList(esql, authorisedUser); Wait();System.out.print("\033[H\033[2J"); break;
-                   case 5: NewMessage(esql); Wait(); System.out.print("\033[H\033[2J"); break;
-                   case 6: ListChats(esql, authorisedUser); Wait(); System.out.print("\033[H\033[2J"); break;
-                   case 7: newChat(esql); Wait(); System.out.print("\033[H\033[2J"); break;
-                   case 8: DeleteAccount(esql); Wait(); break;
-                   case 9: usermenu = false; System.out.print("\033[H\033[2J"); break;
+                   case 3: DeleteFromContact(esql, authorisedUser); Wait(); System.out.print("\033[H\033[2J"); break;
+                   case 4: DeleteFromBlock(esql, authorisedUser); Wait(); System.out.print("\033[H\033[2J"); break;
+                   case 5: ListContacts(esql, authorisedUser); Wait(); System.out.print("\033[H\033[2J"); break;
+                   case 6: BrowseBlockList(esql, authorisedUser); Wait();System.out.print("\033[H\033[2J"); break;
+                   case 7: ListChats(esql, authorisedUser); Wait(); System.out.print("\033[H\033[2J"); break;
+                   case 8: newChat(esql); Wait(); System.out.print("\033[H\033[2J"); break;
+                   case 9: DeleteAccount(esql); Wait(); break;
+                   case 10: usermenu = false; System.out.print("\033[H\033[2J"); break;
                    default : System.out.println("Unrecognized choice!"); Wait(); break;
                 }
               }
@@ -465,12 +467,6 @@ public class Messenger {
       }
    }//end
 
-   public static void NewMessage(Messenger esql){
-      // Your code goes here.
-      // ...
-      // ...
-   }//end 
-
 
    public static void BrowseBlockList(Messenger esql, String authorisedUser){
       System.out.print("\033[H\033[2J");
@@ -615,6 +611,18 @@ public class Messenger {
          System.err.println (e.getMessage ());
       }
    }//end
+   
+      public static void DeleteFromContact(Messenger esql, String authorisedUser){
+      // Your code goes here.
+      // ...
+      // ...
+   }//end 
+   
+      public static void DeleteFromBlock(Messenger esql, String authorisedUser){
+      // Your code goes here.
+      // ...
+      // ...
+   }//end 
    
     public static void newChat(Messenger esql){
       // Your code goes here.
