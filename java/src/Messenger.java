@@ -250,6 +250,7 @@ public class Messenger {
          boolean keepon = true;
          while(keepon) {
             // These are sample SQL statements
+            System.out.print("\033[H\033[2J");
             System.out.println("MAIN MENU");
             System.out.println("---------");
             System.out.println("1. Create user");
@@ -274,7 +275,7 @@ public class Messenger {
                 System.out.println("3. Browse contact list");
                 System.out.println("4. Browse block list");
                 System.out.println("5. Write a new message");
-                System.out.println("6. Browse current chats");
+                System.out.println("6. Browse/Edit current chats");
                 System.out.println("7. Create a new chat");
                 System.out.println("8. DELETE Account");
                 System.out.println(".........................");
@@ -519,9 +520,14 @@ public class Messenger {
 
           System.out.println("5. return to main menu");
           switch(readChoice()){  
-//            case 1: 
-//                    ReplyChat(esql, authorisedUser, chat);
-//                    break;
+            case 1: 
+                     System.out.println("Input your message:");
+                     String message = in.readLine();
+                     String insert_message = String.format("INSERT INTO message (msg_text, sender_login,chat_id) VALUES ('%s','%s','%d')", message, authorisedUser, chat_num);
+      
+                     esql.executeUpdate(insert_message);
+                     System.out.println("\nMessage successfully sent!");
+                    break;
             case 2: 
                     int choice = 1;
                     int limit = 0;
@@ -537,20 +543,53 @@ public class Messenger {
             break;
 
             case 3: 
-					          if (chat_owner_result.size() != 0)
-                    //AddMember(esql, authorisedUser, chat);
-                    System.out.println("Add members to chat\n");
-					          else
+					          if (chat_owner_result.size() != 0){
+                      System.out.print("Who do you want to add? ");  
+                      String added_user = in.readLine();
+                      String added_user_check = String.format( "SELECT login FROM Usr WHERE login = '%s'", added_user);
+                      List<List< String>> added_user_query = esql.executeQueryAndReturnResult(added_user_check);
+                      if(added_user_query.size() != 0){
+                        String insert_user = String.format("INSERT INTO chat_list (chat_id, member) VALUES ('%d', '%s')", chat_num, added_user);
+                        esql.executeUpdate(insert_user);
+                         System.out.print("Successfully added " + added_user + " to chat " + chat_num + "\n");
+                         Wait();
+                         }
+                      else{
+                       System.out.print("Invalid User!\n");
+                       Wait();
+                       }
+                    }
+					          else{
                     System.out.println("Invalid Input!\n");
+                    Wait();
+                    }
                      
 					  break;
 			
 		    	  case 4: 
-					        if (chat_owner_result.size() != 0)
-                   //DeleteMember(esql, authorisedUser, chat);
-                   System.out.println("Remove members from chat\n");
-                  else
-                  System.out.println("Invalid Input!\n");					        
+					        if (chat_owner_result.size() != 0){
+                      System.out.print("\nThe following users are currently in the chat.\n");
+                      String curr_chat_users = String.format("SELECT member FROM chat_list WHERE chat_id = '%d'", chat_num);
+                      esql.executeQueryAndPrintResult(curr_chat_users);
+                      System.out.print("\nWho do you want to remove? ");  
+                      String removed_user = in.readLine();
+                      String removed_user_check = String.format( "SELECT member FROM chat_list WHERE member = '%s' AND chat_id = '%d'", removed_user, chat_num);
+                      List<List< String>> removed_user_query = esql.executeQueryAndReturnResult(removed_user_check);
+                      if(removed_user_query.size() != 0){
+                        String delete_user = String.format("DELETE FROM chat_list WHERE member = '%s' AND chat_id = '%d'", removed_user, chat_num);
+                        esql.executeUpdate(delete_user);
+                         System.out.print("Successfully removed " + removed_user + " from chat " + chat_num + "\n");
+                         Wait();
+                         }
+                      else{
+                       System.out.print("Invalid User!\n");
+                       Wait();
+                       }
+                    }
+					          else{
+                    System.out.println("Invalid Input!\n");
+                    Wait();
+                    }					        
 				  	break;
                        
             case 5:
