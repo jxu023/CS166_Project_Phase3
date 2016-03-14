@@ -13,6 +13,10 @@ WHERE list.list_member = u1.login;
 
 /*
 browse block list
+
+users in block list will not be able to send you messages
+you are unable to add user to chat if you are in their block list
+
 */
 SELECT u1.login AS Blocked_Contacts
 FROM (
@@ -61,6 +65,10 @@ DELETE FROM Usr
 WHERE login = 'Norma';
 
 /*
+delete chat and messages
+*/
+DELETE FROM Message WHERE chat_id = num;
+/*
 browse current chats
 */
 SELECT chats.chat_id AS Current_Chats
@@ -70,10 +78,9 @@ WHERE u1.login = 'Norma' AND chats.member = u1.login;
 /*
 add chat with initial members
 */
-INSERT INTO CHAT
-    VALUES (DEFAULT,'private','Norma');
-
-INSERT INTO CHAT_LIST
+INSERT INTO CHAT VALUES (DEFAULT,'private','Norma');
+/*then*/
+INSERT INTO CHAT_LIST VALUES ('CHAT_ID', 'member');
 /*
 browse messages
 10 at a time chronologically
